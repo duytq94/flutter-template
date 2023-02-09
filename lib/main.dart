@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/simple_bloc_observer.dart';
-import 'package:flutter_template/user_details/page/user_details_page.dart';
+import 'package:flutter_template/user_details/pages/user_details_page.dart';
 
 void main() {
   Bloc.observer = SimpleBlocObserver();
