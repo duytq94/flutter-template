@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/followers/models/follower.dart';
 
-class FollowerListItem extends StatelessWidget {
-  const FollowerListItem({super.key, required this.follower});
+class FollowerItem extends StatelessWidget {
+  const FollowerItem({super.key, required this.follower});
 
   final Follower follower;
 

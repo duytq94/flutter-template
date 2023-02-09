@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/common/common_widgets/common_button.dart';
 import 'package:flutter_template/followers/bloc/follower_bloc.dart';
 import 'package:flutter_template/followers/widgets/bottom_loader.dart';
-import 'package:flutter_template/followers/widgets/follower_list_item.dart';
+import 'package:flutter_template/followers/widgets/follower_item.dart';
 import 'package:flutter_template/themes/app_colors.dart';
 
 class FollowerPage extends StatefulWidget {
@@ -45,12 +46,11 @@ class _FollowerPageState extends State<FollowerPage> {
 
   Widget renderCtaBtn() {
     return Center(
-      child: TextButton(
-        onPressed: () {
+      child: CommonButton(
+        onPress: () {
           _followerBloc.add(FollowerFetch());
         },
-        style: TextButton.styleFrom(backgroundColor: AppColors.mainColor),
-        child: const Text("Get followers", style: TextStyle(color: Colors.white)),
+        text: "Get followers",
       ),
     );
   }
@@ -77,7 +77,7 @@ class _FollowerPageState extends State<FollowerPage> {
                     itemBuilder: (BuildContext context, int index) {
                       return index >= followers.length
                           ? const BottomLoader()
-                          : FollowerListItem(follower: followers[index]);
+                          : FollowerItem(follower: followers[index]);
                     },
                     itemCount: state.hasReachedMax ? followers.length : followers.length + 1,
                     controller: _scrollController,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_template/common/common_widgets/common_button.dart';
 import 'package:flutter_template/followers/pages/followers_page.dart';
 import 'package:flutter_template/followers/widgets/bottom_loader.dart';
 import 'package:flutter_template/themes/app_colors.dart';
@@ -44,24 +45,22 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
 
   Widget renderCtaBtn() {
     return Center(
-      child: TextButton(
-        onPressed: () {
+      child: CommonButton(
+        onPress: () {
           _userDetailsBloc.add(UserDetailsFetch());
         },
-        style: TextButton.styleFrom(backgroundColor: AppColors.mainColor),
-        child: const Text("Get user details", style: TextStyle(color: Colors.white)),
+        text: "Get user details",
       ),
     );
   }
 
   Widget renderNavBtn() {
     return Center(
-      child: TextButton(
-        onPressed: () {
+      child: CommonButton(
+        onPress: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => const FollowerPage()));
         },
-        style: TextButton.styleFrom(backgroundColor: AppColors.mainColor),
-        child: const Text("Go followers page", style: TextStyle(color: Colors.white)),
+        text: "Go followers page",
       ),
     );
   }

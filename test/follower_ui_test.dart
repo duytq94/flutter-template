@@ -1,17 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_template/common/common_widgets/common_button.dart';
 import 'package:flutter_template/followers/models/follower.dart';
-import 'package:flutter_template/followers/widgets/follower_list_item.dart';
+import 'package:flutter_template/followers/widgets/bottom_loader.dart';
+import 'package:flutter_template/followers/widgets/follower_item.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
 void main() {
-  testWidgets("Item follower has an avatar and username", (widgetTester) async {
+  testWidgets("Check FollowerItem has an avatar and username", (widgetTester) async {
     const user = Follower(name: "duytq94", avatarUrl: "https://avatars.githubusercontent.com/u/24253421?v=4");
     await mockNetworkImagesFor(() async {
       await widgetTester.pumpWidget(
         const MaterialApp(
-          home: FollowerListItem(follower: user),
+          home: FollowerItem(follower: user),
         ),
       );
     });
@@ -21,5 +23,27 @@ void main() {
 
     expect(nameFinder, findsOneWidget);
     expect(avatarFinder, findsOneWidget);
+  });
+
+  testWidgets("Check BottomLoader instance", (widgetTester) async {
+    const bottomLoader = BottomLoader();
+    await widgetTester.pumpWidget(
+      const MaterialApp(
+        home: bottomLoader,
+      ),
+    );
+
+    expect(find.byWidget(bottomLoader), findsOneWidget);
+  });
+
+  testWidgets("Check CommonButton instance", (widgetTester) async {
+    var commonButton = CommonButton(onPress: () {}, text: "");
+    await widgetTester.pumpWidget(
+      MaterialApp(
+        home: commonButton,
+      ),
+    );
+
+    expect(find.byWidget(commonButton), findsOneWidget);
   });
 }
