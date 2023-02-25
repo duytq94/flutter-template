@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/common_widgets/common_button.dart';
 import 'package:flutter_template/followers/pages/followers_page.dart';
 import 'package:flutter_template/followers/widgets/bottom_loader.dart';
-import 'package:flutter_template/themes/app_colors.dart';
 import 'package:flutter_template/user_details/bloc/user_details_bloc.dart';
 
 class UserDetailsPage extends StatefulWidget {
@@ -26,7 +25,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.themColor,
         title: const Text('User details'),
         centerTitle: true,
       ),
@@ -34,6 +32,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
         color: Colors.grey.shade50,
         child: Column(
           children: [
+            const SizedBox(height: 20),
             renderCtaBtn(),
             renderNavBtn(),
             renderUserDetailsInfo(),
