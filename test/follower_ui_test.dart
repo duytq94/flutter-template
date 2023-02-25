@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_template/common/common_widgets/common_button.dart';
 import 'package:flutter_template/followers/models/follower.dart';
@@ -37,12 +36,19 @@ void main() {
   });
 
   testWidgets("Check CommonButton instance", (widgetTester) async {
-    var commonButton = CommonButton(onPress: () {}, text: "");
+    var commonButton = CommonButton(
+      onPress: () {
+        print("CommonButton pressed");
+      },
+      text: "",
+    );
     await widgetTester.pumpWidget(
       MaterialApp(
         home: commonButton,
       ),
     );
+
+    await widgetTester.tap(find.byWidget(commonButton));
 
     expect(find.byWidget(commonButton), findsOneWidget);
   });
