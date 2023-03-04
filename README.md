@@ -7,6 +7,7 @@
 * Use Bloc.
 * Fetch simple GitHub REST API with Dio.
 * Environment config: flavors with dev & prod
+* CI with GitHub Actions
 
 ## Run
 * Run app in dev environment:<br>
