@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_template/main/app_config.dart';
 import 'package:flutter_template/simple_bloc_observer.dart';
 
+import '../config/app_config.dart';
 import 'my_app.dart';
 
-void main() {
+void main() async {
   Bloc.observer = SimpleBlocObserver();
-  AppConfig config = const AppConfig("FT App Dev", AppFlavor.dev);
-  runApp(MyApp(appConfig: config));
+  AppConfig config = const AppConfig("FT App Prod", AppFlavor.prod);
+  configDependencies(config);
+  runApp(const MyApp());
 }

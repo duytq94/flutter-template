@@ -1,9 +1,10 @@
+import 'package:flutter_template/config/app_config.dart';
 import 'package:flutter_template/followers/models/follower.dart';
 import 'package:flutter_template/services/base_client.dart';
 import 'package:flutter_template/services/dio_client.dart';
 
 class FollowerRepository {
-  FollowerRepository({BaseClient? baseClient}) : _baseClient = baseClient ?? DioApiClient();
+  FollowerRepository({BaseClient? baseClient}) : _baseClient = baseClient ?? getIt.get<DioApiClient>();
 
   final BaseClient _baseClient;
 

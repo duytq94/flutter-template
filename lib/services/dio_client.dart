@@ -1,7 +1,5 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
-
 import 'services.dart';
 
 class DioApiClient extends BaseClient {

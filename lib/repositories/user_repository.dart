@@ -1,9 +1,10 @@
+import 'package:flutter_template/config/app_config.dart';
 import 'package:flutter_template/services/dio_client.dart';
 import 'package:flutter_template/services/services.dart';
 import 'package:flutter_template/user_details/models/user_details.dart';
 
 class UserRepository {
-  UserRepository({BaseClient? baseClient}) : _baseClient = baseClient ?? DioApiClient();
+  UserRepository({BaseClient? baseClient}) : _baseClient = baseClient ?? getIt.get<DioApiClient>();
 
   final BaseClient _baseClient;
 
