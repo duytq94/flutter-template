@@ -67,12 +67,12 @@ android {
         dev {
             dimension "fluttertemplate"
             applicationIdSuffix ".dev"
-            resValue "string", "app_name", "FT App Dev"
+            resValue "string", "app_name", "TemplateDev"
         }
         prod {
             dimension "fluttertemplate"
             applicationIdSuffix ".prod"
-            resValue "string", "app_name", "FT App Prod"
+            resValue "string", "app_name", "TemplateProd"
         }
     }
 }

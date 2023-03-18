@@ -5,6 +5,7 @@
 
 ## Features
 * Use Bloc.
+* DI with get_it.
 * Fetch simple GitHub REST API with Dio.
 * Environment config: flavors with dev & prod
 * CI with GitHub Actions
@@ -13,16 +14,10 @@
 * Run app in dev environment:<br>
 `flutter run -t lib/app/main_dev.dart --flavor=dev`
 
-* Run app in debug mode (Picks up debug signing config):<br>
+* Run app in debug mode:<br>
 `flutter run -t lib/app/main_dev.dart --debug --flavor=dev`
 
-* Run app in release mode (Picks up release signing config):<br>
+* Run app in release mode:<br>
 `flutter run -t lib/app/main_dev.dart --release --flavor=dev`
 
-* Create appBundle for Android platform. Runs in release mode by default:<br>
-`flutter build appbundle -t lib/app/main_dev.dart --flavor=dev`
-
-* Create APK for dev flavor. Runs in release mode by default:<br>
-`flutter build apk -t lib/app/main_dev.dart --flavor=dev`
-
-Replace `dev` with `prod` to run and build app for production environment.
+Replace `dev` with `prod` to run app for production environment.
