@@ -12,19 +12,19 @@ void main() {
   group('fetchUserDetails', () {
     test("test fetchUserDetails success", () async {
       final mockClient = MockBaseClient();
-
-      when(mockClient.get("https://api.github.com/users/duytq94")).thenAnswer((realInvocation) async {
-        Map<String, dynamic> response = {
+      when(mockClient.get("users/duytq94")).thenAnswer((_) async {
+        Map<String, dynamic> json = {
           "login": "duytq94",
           "name": "Duy Tran",
           "location": "Viet Nam",
           "avatar_url": "https://avatars.githubusercontent.com/u/24253421?v=4"
         };
-        return response;
+        var res = UserDetails.fromJson(json);
+        return Success<UserDetails>(res);
       });
 
       final userRepository = UserDetailsRepositoryImpl(mockClient);
-      expect(await userRepository.getUserDetails(), isA<UserDetails>());
+      expect(await userRepository.getUserDetails(), isA<Result>());
     });
   });
 }
