@@ -5,4 +5,4 @@ abstract class UserDetailsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class UserDetailsFetch extends UserDetailsEvent {}
+class FetchUserDetails extends UserDetailsEvent {}

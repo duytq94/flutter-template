@@ -1,6 +1,6 @@
-import 'package:flutter_template/repositories/user_repository.dart';
+import 'package:flutter_template/repositories/user_details_repository.dart';
 import 'package:flutter_template/services/services.dart';
-import 'package:flutter_template/user_details/models/user_details.dart';
+import 'package:flutter_template/ui/user_details/models/user_details.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
@@ -23,8 +23,8 @@ void main() {
         return response;
       });
 
-      final userRepository = UserRepository(baseClient: mockClient);
-      expect(await userRepository.fetchUserDetails(), isA<UserDetails>());
+      final userRepository = UserDetailsRepositoryImpl(mockClient);
+      expect(await userRepository.getUserDetails(), isA<UserDetails>());
     });
   });
 }

@@ -3,10 +3,16 @@ import 'package:dio/dio.dart';
 import 'services.dart';
 
 class DioApiClient extends BaseClient {
+  final Dio _dio = Dio();
+
+  DioApiClient(String baseUrl) {
+    _dio.options.baseUrl = baseUrl;
+  }
+
   @override
   Future get(String url) async {
     try {
-      final response = await Dio().get(url);
+      final response = await _dio.get(url);
       final responseBody = response.data is Map || response.data is List
           ? response.data
           : response.data != ""

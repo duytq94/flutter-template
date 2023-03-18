@@ -1,16 +1,25 @@
-import 'package:flutter_template/config/app_config.dart';
-import 'package:flutter_template/followers/models/follower.dart';
 import 'package:flutter_template/services/base_client.dart';
-import 'package:flutter_template/services/dio_client.dart';
+import 'package:flutter_template/services/result_model.dart';
+import 'package:flutter_template/ui/followers/models/follower.dart';
 
-class FollowerRepository {
-  FollowerRepository({BaseClient? baseClient}) : _baseClient = baseClient ?? getIt.get<DioApiClient>();
+abstract class FollowerRepository {
+  Future<Result> getFollowers(int page, int perPage);
+}
+
+class FollowerRepositoryImpl extends FollowerRepository {
+  FollowerRepositoryImpl(this._baseClient);
 
   final BaseClient _baseClient;
 
-  Future<List<Follower>> fetchFollowers(int page, int limit) async {
-    var response = await _baseClient.get('https://api.github.com/users/duytq94/followers?page=$page&per_page=$limit');
-    var dataList = response != null && response is List ? response : [];
-    return dataList.map((model) => Follower.fromJson(model)).toList();
+  @override
+  Future<Result> getFollowers(int page, int perPage) async {
+    try {
+      var res = await _baseClient.get('users/duytq94/followers?page=$page&per_page=$perPage');
+      var dataList = res != null && res is List ? res : [];
+      var followers = dataList.map((model) => Follower.fromJson(model)).toList();
+      return Success<List<Follower>>(followers);
+    } catch (e) {
+      return Failure(e.toString());
+    }
   }
 }

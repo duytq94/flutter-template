@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/common_widgets/common_button.dart';
-import 'package:flutter_template/followers/bloc/follower_bloc.dart';
-import 'package:flutter_template/followers/widgets/bottom_loader.dart';
-import 'package:flutter_template/followers/widgets/follower_item.dart';
-import 'package:flutter_template/themes/app_colors.dart';
+import 'package:flutter_template/ui/followers/bloc/follower_bloc.dart';
+import 'package:flutter_template/ui/followers/widgets/bottom_loader.dart';
+import 'package:flutter_template/ui/followers/widgets/follower_item.dart';
 
 class FollowerPage extends StatefulWidget {
   const FollowerPage({Key? key}) : super(key: key);
@@ -35,15 +34,15 @@ class _FollowerPageState extends State<FollowerPage> {
         color: Colors.grey.shade50,
         child: Column(
           children: [
-            renderCtaBtn(),
-            renderListFollowers(),
+            _renderCtaBtn(),
+            _renderListFollowers(),
           ],
         ),
       ),
     );
   }
 
-  Widget renderCtaBtn() {
+  Widget _renderCtaBtn() {
     return Center(
       child: CommonButton(
         onPress: () {
@@ -54,42 +53,43 @@ class _FollowerPageState extends State<FollowerPage> {
     );
   }
 
-  Widget renderListFollowers() {
+  Widget _renderListFollowers() {
     return Expanded(
       child: BlocProvider(
         create: (_) => _followerBloc,
         child: BlocBuilder<FollowerBloc, FollowerState>(
           builder: (context, state) {
-            switch (state.status) {
-              case FollowerStatus.failure:
-                return Center(child: Text(state.errMessage));
-              case FollowerStatus.success:
-                if (state.followers?.isEmpty == true) {
-                  return const Center(child: Text('no followers'));
-                }
-                var followers = state.followers!;
-                return RefreshIndicator(
-                  onRefresh: () async {
-                    _followerBloc.add(FollowerReload());
-                  },
-                  child: ListView.separated(
-                    itemBuilder: (BuildContext context, int index) {
-                      return index >= followers.length
-                          ? const BottomLoader()
-                          : FollowerItem(follower: followers[index]);
-                    },
-                    itemCount: state.hasReachedMax ? followers.length : followers.length + 1,
-                    controller: _scrollController,
-                    separatorBuilder: (BuildContext context, int index) {
-                      return const SizedBox(height: 8);
-                    },
-                  ),
-                );
-              case FollowerStatus.initial:
-                return const SizedBox.shrink();
-              case FollowerStatus.loading:
-                return const BottomLoader();
+            if (state is FollowerFail) {
+              return Center(child: Text(state.errMessage));
             }
+            if (state is FollowerSuccess) {
+              if (state.followers.isEmpty == true) {
+                return const Center(child: Text('no followers'));
+              }
+              var followers = state.followers;
+              return RefreshIndicator(
+                onRefresh: () async {
+                  _followerBloc.add(FollowerReload());
+                },
+                child: ListView.separated(
+                  itemBuilder: (BuildContext context, int index) {
+                    return index >= followers.length ? const BottomLoader() : FollowerItem(follower: followers[index]);
+                  },
+                  itemCount: state.hasReachedMax ? followers.length : followers.length + 1,
+                  controller: _scrollController,
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const SizedBox(height: 8);
+                  },
+                ),
+              );
+            }
+            if (state is FollowerInitial) {
+              return const SizedBox.shrink();
+            }
+            if (state is FollowerLoading) {
+              return const BottomLoader();
+            }
+            return const Center(child: Text("Undefined state"));
           },
         ),
       ),

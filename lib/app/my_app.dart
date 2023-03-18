@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/config/app_config.dart';
+import 'package:flutter_template/di/app_injection.dart';
+import 'package:flutter_template/ui/user_details/pages/user_details_page.dart';
 import 'package:flutter_template/utilities/utils.dart';
 
 import '../themes/app_colors.dart';
-import '../user_details/pages/user_details_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
