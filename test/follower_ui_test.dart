@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/common/common_widgets/common_button.dart';
 import 'package:flutter_template/ui/followers/models/follower.dart';
-import 'package:flutter_template/ui/followers/widgets/bottom_loader.dart';
+import 'package:flutter_template/common/common_widgets/bottom_loader.dart';
 import 'package:flutter_template/ui/followers/widgets/follower_item.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_template/common/common_widgets/common_button.dart';
 import 'package:flutter_template/ui/followers/bloc/follower_bloc.dart';
-import 'package:flutter_template/ui/followers/widgets/bottom_loader.dart';
+import 'package:flutter_template/common/common_widgets/bottom_loader.dart';
 import 'package:flutter_template/ui/followers/widgets/follower_item.dart';
 
 class FollowerPage extends StatefulWidget {
@@ -34,7 +34,9 @@ class _FollowerPageState extends State<FollowerPage> {
         color: Colors.grey.shade50,
         child: Column(
           children: [
+            const SizedBox(height: 10),
             _renderCtaBtn(),
+            const SizedBox(height: 10),
             _renderListFollowers(),
           ],
         ),

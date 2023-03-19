@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_template/config/app_config.dart';
 import 'package:flutter_template/di/app_injection.dart';
-import 'package:flutter_template/ui/user_details/pages/user_details_page.dart';
+import 'package:flutter_template/ui/home/home_page.dart';
 import 'package:flutter_template/utilities/utils.dart';
 
 import '../themes/app_colors.dart';
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       home: Banner(
         message: Utils.isProd(appConfig.flavor) ? "Prod" : "Dev",
         location: BannerLocation.topEnd,
-        child: const UserDetailsPage(),
+        child: const HomePage(),
       ),
     );
   }

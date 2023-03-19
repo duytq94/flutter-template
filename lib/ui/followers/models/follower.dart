@@ -10,6 +10,11 @@ class Follower extends Equatable {
   @override
   List<Object?> get props => [name, avatarUrl];
 
+  @override
+  String toString() {
+    return "Follower { name: $name, avatarUrl: $avatarUrl }";
+  }
+
   factory Follower.fromJson(Map<String, dynamic> json) {
     return Follower(
       name: Parser.parseString(json["login"]) ?? "",

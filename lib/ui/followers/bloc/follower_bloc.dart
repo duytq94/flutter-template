@@ -47,7 +47,7 @@ class FollowerBloc extends Bloc<FollowerEvent, FollowerState> {
         return emit(
           FollowerSuccess(
             followers: followers,
-            page: 1,
+            currentPage: 1,
             hasReachedMax: followers.length < perPage,
           ),
         );
@@ -56,7 +56,7 @@ class FollowerBloc extends Bloc<FollowerEvent, FollowerState> {
       }
     } else {
       // load more
-      final res = await _fetchFollowers(currentState.page);
+      final res = await _fetchFollowers(currentState.currentPage + 1);
       if (res is Success<List<Follower>>) {
         var followers = res.data;
         emit(
@@ -65,7 +65,7 @@ class FollowerBloc extends Bloc<FollowerEvent, FollowerState> {
               : currentState.copyWith(
                   followers: [...currentState.followers, ...followers],
                   hasReachMax: false,
-                  page: currentState.page + 1,
+                  currentPage: currentState.currentPage + 1,
                 ),
         );
       } else if (res is Failure) {}
@@ -80,7 +80,7 @@ class FollowerBloc extends Bloc<FollowerEvent, FollowerState> {
       emit(
         FollowerSuccess(
           followers: followers,
-          page: 1,
+          currentPage: 1,
           hasReachedMax: followers.length < perPage,
         ),
       );

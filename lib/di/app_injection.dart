@@ -1,5 +1,6 @@
 import 'package:flutter_template/config/app_config.dart';
 import 'package:flutter_template/repositories/follower_repository.dart';
+import 'package:flutter_template/repositories/repo_repository.dart';
 import 'package:flutter_template/repositories/user_details_repository.dart';
 import 'package:flutter_template/services/base_client.dart';
 import 'package:flutter_template/services/dio_client.dart';
@@ -19,6 +20,7 @@ class AppInjection {
 
   static void _injectNetwork(AppConfig appConfig) {
     var baseUrl = "https://api.github.com/";
+    // Assuming we have different url, set here
     switch (appConfig.flavor) {
       case AppFlavor.prod:
         baseUrl = "https://api.github.com/";
@@ -33,5 +35,6 @@ class AppInjection {
 
     getIt.registerSingleton<UserDetailsRepository>(UserDetailsRepositoryImpl(dio));
     getIt.registerSingleton<FollowerRepository>(FollowerRepositoryImpl(dio));
+    getIt.registerSingleton<RepoRepository>(RepoRepositoryImpl(dio));
   }
 }
