@@ -12,12 +12,18 @@ class UserDetailsPage extends StatefulWidget {
 }
 
 class _UserDetailsPageState extends State<UserDetailsPage> {
-  late UserDetailsBloc _userDetailsBloc;
+  final _userDetailsBloc = UserDetailsBloc();
 
   @override
   void initState() {
     super.initState();
-    _userDetailsBloc = UserDetailsBloc();
+    _userDetailsBloc.add(FetchUserDetails());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _userDetailsBloc.close();
   }
 
   @override
@@ -28,40 +34,22 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
       ),
       body: Container(
         color: Colors.grey.shade50,
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            _renderCtaBtn(),
-            const SizedBox(height: 10),
-            _renderUserDetailsInfo(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _renderCtaBtn() {
-    return Center(
-      child: CommonButton(
-        onPress: () {
-          _userDetailsBloc.add(FetchUserDetails());
-        },
-        text: "Get user details",
+        child: _renderUserDetailsInfo(),
       ),
     );
   }
 
   Widget _renderUserDetailsInfo() {
-    return Expanded(
-      child: BlocBuilder<UserDetailsBloc, UserDetailsState>(
-        bloc: _userDetailsBloc,
-        builder: (context, state) {
-          if (state is UserDetailsFail) {
-            return Center(child: Text(state.errMessage ?? ""));
-          }
-          if (state is UserDetailsSuccess) {
-            var userDetails = state.userDetails;
-            return Column(
+    return BlocBuilder<UserDetailsBloc, UserDetailsState>(
+      bloc: _userDetailsBloc,
+      builder: (context, state) {
+        if (state is UserDetailsFail) {
+          return Center(child: Text(state.errMessage ?? ""));
+        }
+        if (state is UserDetailsSuccess) {
+          var userDetails = state.userDetails;
+          return Center(
+            child: Column(
               children: [
                 const SizedBox(height: 8),
                 ClipRRect(
@@ -75,17 +63,17 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                 const SizedBox(height: 8),
                 Text(userDetails.location),
               ],
-            );
-          }
-          if (state is UserDetailsInitial) {
-            return const SizedBox.shrink();
-          }
-          if (state is UserDetailsLoading) {
-            return const BottomLoader();
-          }
-          return const Center(child: Text("Undefined state"));
-        },
-      ),
+            ),
+          );
+        }
+        if (state is UserDetailsInitial) {
+          return const SizedBox.shrink();
+        }
+        if (state is UserDetailsLoading) {
+          return const BottomLoader();
+        }
+        return const Center(child: Text("Undefined state"));
+      },
     );
   }
 }

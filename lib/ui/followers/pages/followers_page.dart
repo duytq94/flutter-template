@@ -14,13 +14,13 @@ class FollowerPage extends StatefulWidget {
 
 class _FollowerPageState extends State<FollowerPage> {
   final _scrollController = ScrollController();
-  late FollowerBloc _followerBloc;
+  final _followerBloc = FollowerBloc();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _followerBloc = FollowerBloc();
+    _followerBloc.add(FollowerFetch());
   }
 
   @override
@@ -32,68 +32,48 @@ class _FollowerPageState extends State<FollowerPage> {
       ),
       body: Container(
         color: Colors.grey.shade50,
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            _renderCtaBtn(),
-            const SizedBox(height: 10),
-            _renderListFollowers(),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _renderCtaBtn() {
-    return Center(
-      child: CommonButton(
-        onPress: () {
-          _followerBloc.add(FollowerFetch());
-        },
-        text: "Get followers",
+        child: _renderListFollowers(),
       ),
     );
   }
 
   Widget _renderListFollowers() {
-    return Expanded(
-      child: BlocProvider(
-        create: (_) => _followerBloc,
-        child: BlocBuilder<FollowerBloc, FollowerState>(
-          builder: (context, state) {
-            if (state is FollowerFail) {
-              return Center(child: Text(state.errMessage));
+    return BlocProvider(
+      create: (_) => _followerBloc,
+      child: BlocBuilder<FollowerBloc, FollowerState>(
+        builder: (context, state) {
+          if (state is FollowerFail) {
+            return Center(child: Text(state.errMessage));
+          }
+          if (state is FollowerSuccess) {
+            if (state.followers.isEmpty == true) {
+              return const Center(child: Text('no followers'));
             }
-            if (state is FollowerSuccess) {
-              if (state.followers.isEmpty == true) {
-                return const Center(child: Text('no followers'));
-              }
-              var followers = state.followers;
-              return RefreshIndicator(
-                onRefresh: () async {
-                  _followerBloc.add(FollowerReload());
+            var followers = state.followers;
+            return RefreshIndicator(
+              onRefresh: () async {
+                _followerBloc.add(FollowerReload());
+              },
+              child: ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  return index >= followers.length ? const BottomLoader() : FollowerItem(follower: followers[index]);
                 },
-                child: ListView.separated(
-                  itemBuilder: (BuildContext context, int index) {
-                    return index >= followers.length ? const BottomLoader() : FollowerItem(follower: followers[index]);
-                  },
-                  itemCount: state.hasReachedMax ? followers.length : followers.length + 1,
-                  controller: _scrollController,
-                  separatorBuilder: (BuildContext context, int index) {
-                    return const SizedBox(height: 8);
-                  },
-                ),
-              );
-            }
-            if (state is FollowerInitial) {
-              return const SizedBox.shrink();
-            }
-            if (state is FollowerLoading) {
-              return const BottomLoader();
-            }
-            return const Center(child: Text("Undefined state"));
-          },
-        ),
+                itemCount: state.hasReachedMax ? followers.length : followers.length + 1,
+                controller: _scrollController,
+                separatorBuilder: (BuildContext context, int index) {
+                  return const SizedBox(height: 8);
+                },
+              ),
+            );
+          }
+          if (state is FollowerInitial) {
+            return const SizedBox.shrink();
+          }
+          if (state is FollowerLoading) {
+            return const BottomLoader();
+          }
+          return const Center(child: Text("Undefined state"));
+        },
       ),
     );
   }
@@ -103,6 +83,7 @@ class _FollowerPageState extends State<FollowerPage> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    _followerBloc.close();
     super.dispose();
   }
 
