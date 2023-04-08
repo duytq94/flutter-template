@@ -1,47 +1,16 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter_template/ui/repos/models/repo.dart';
+part of 'repos_cubit.dart';
 
-abstract class ReposState extends Equatable {
-  const ReposState();
+@freezed
+class ReposState with _$ReposState {
+  const factory ReposState.initial() = _Initial;
 
-  @override
-  List<Object?> get props => [];
-}
+  const factory ReposState.loading() = _Loading;
 
-class ReposInitial extends ReposState {}
+  const factory ReposState.success({
+    required List<Repo> repos,
+    required int currentPage,
+    required bool hasReachedMax,
+  }) = _Success;
 
-class ReposLoading extends ReposState {}
-
-class ReposFail extends ReposState {
-  final String errMessage;
-
-  const ReposFail(this.errMessage);
-}
-
-class ReposSuccess extends ReposState {
-  final List<Repo> repos;
-  final int currentPage;
-  final bool hasReachedMax;
-
-  const ReposSuccess({
-    required this.repos,
-    required this.currentPage,
-    required this.hasReachedMax,
-  });
-
-  ReposSuccess copyWith({List<Repo>? repos, int? currentPage, bool? hasReachedMax}) {
-    return ReposSuccess(
-      repos: repos ?? this.repos,
-      currentPage: currentPage ?? this.currentPage,
-      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
-    );
-  }
-
-  @override
-  List<Object?> get props => [repos, currentPage, hasReachedMax];
-
-  @override
-  String toString() {
-    return 'ReposSuccess { repos: $repos, page: $currentPage, hasReachedMax: $hasReachedMax }';
-  }
+  const factory ReposState.fail(String message) = _Fail;
 }
