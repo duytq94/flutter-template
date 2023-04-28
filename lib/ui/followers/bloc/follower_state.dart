@@ -22,11 +22,11 @@ class FollowerSuccess extends FollowerState {
     required this.hasReachedMax,
   });
 
-  FollowerSuccess copyWith({List<Follower>? followers, int? currentPage, bool? hasReachMax}) {
+  FollowerSuccess copyWith({List<Follower>? followers, int? currentPage, bool? hasReachedMax}) {
     return FollowerSuccess(
       followers: followers ?? this.followers,
       currentPage: currentPage ?? this.currentPage,
-      hasReachedMax: hasReachMax ?? hasReachedMax,
+      hasReachedMax: hasReachedMax ?? this.hasReachedMax,
     );
   }
 

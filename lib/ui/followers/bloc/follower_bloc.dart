@@ -37,18 +37,18 @@ class FollowerBloc extends Bloc<FollowerEvent, FollowerState> {
 
   Future<void> _onFollowerFetch(FollowerFetch event, Emitter<FollowerState> emit) async {
     var currentState = state;
-    if (_hasReachMax(currentState)) return;
+    if (_hasReachedMax(currentState)) return;
 
     if (currentState is! FollowerSuccess) {
       emit(FollowerLoading());
       var res = await _fetchFollowers(1);
       if (res is Success<List<Follower>>) {
-        var followers = res.data;
+        var newFollowers = res.data;
         return emit(
           FollowerSuccess(
-            followers: followers,
+            followers: newFollowers,
             currentPage: 1,
-            hasReachedMax: followers.length < perPage,
+            hasReachedMax: newFollowers.length < perPage,
           ),
         );
       } else if (res is Failure) {
@@ -58,13 +58,13 @@ class FollowerBloc extends Bloc<FollowerEvent, FollowerState> {
       // load more
       final res = await _fetchFollowers(currentState.currentPage + 1);
       if (res is Success<List<Follower>>) {
-        var followers = res.data;
+        var newFollowers = res.data;
         emit(
-          followers.isEmpty
-              ? currentState.copyWith(hasReachMax: true)
+          newFollowers.isEmpty
+              ? currentState.copyWith(hasReachedMax: true)
               : currentState.copyWith(
-                  followers: [...currentState.followers, ...followers],
-                  hasReachMax: false,
+                  followers: [...currentState.followers, ...newFollowers],
+                  hasReachedMax: newFollowers.length < perPage,
                   currentPage: currentState.currentPage + 1,
                 ),
         );
@@ -76,12 +76,12 @@ class FollowerBloc extends Bloc<FollowerEvent, FollowerState> {
     emit(FollowerLoading());
     var res = await _fetchFollowers(1);
     if (res is Success<List<Follower>>) {
-      var followers = res.data;
+      var newFollowers = res.data;
       emit(
         FollowerSuccess(
-          followers: followers,
+          followers: newFollowers,
           currentPage: 1,
-          hasReachedMax: followers.length < perPage,
+          hasReachedMax: newFollowers.length < perPage,
         ),
       );
     } else if (res is Failure) {
@@ -94,7 +94,7 @@ class FollowerBloc extends Bloc<FollowerEvent, FollowerState> {
     return result;
   }
 
-  bool _hasReachMax(FollowerState state) {
+  bool _hasReachedMax(FollowerState state) {
     return state is FollowerSuccess && state.hasReachedMax == true;
   }
 }
